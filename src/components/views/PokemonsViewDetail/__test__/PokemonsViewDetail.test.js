@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { evolutionedButton, originalButton, pokemon, pokemon1, pokemons } from "../../../../utils";
+import { evolutionedButton, originalButton, pokemon, pokemon1 } from "../../../../utils";
 import DetailPokemonsView from "../PokemonsViewDetail";
 
 

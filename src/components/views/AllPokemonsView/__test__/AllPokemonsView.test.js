@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import AllPokemonsView from "../AllPokemonsView";
 import { morePokemonsButton, pokemons } from "../../../../utils";
 
-describe("Pokemon View Container", () => {
+describe("Pokemon View", () => {
   it("should display the POKEMON view container and the title", async () => {
     const { getByTestId } = render(
       <BrowserRouter>
