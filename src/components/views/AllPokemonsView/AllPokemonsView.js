@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import './index.css';
 
 const AllPokemonsView = ({ pokemons, morePokemonsButton }) => {
+
   return (
     <div className="container" data-testid="container">
       <h1 data-testid="pokemons-title">POKEMONS</h1>
+
       <div className="pokemonsView" data-testid="pokemonsView">
         {pokemons.map((pokemon, i) => (
           <div
@@ -24,6 +26,7 @@ const AllPokemonsView = ({ pokemons, morePokemonsButton }) => {
             </Link>
           </div>
         ))}
+        
       </div>
         {morePokemonsButton}
     </div>

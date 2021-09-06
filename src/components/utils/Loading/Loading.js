@@ -1,5 +1,6 @@
 
 import loader from "../../../assets/loading.svg";
+import './styles.css'
 
 const Loading = () => {
   return (
