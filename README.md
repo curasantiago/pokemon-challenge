@@ -7,6 +7,10 @@ On master branch you will find the project.
 API:
 https://pokeapi.co/
 
+Once you clone the project, follows comands:
+
+npm start - start the server
+npm run test - run all the tests
 
 
 
