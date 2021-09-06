@@ -1,8 +1,12 @@
 import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { evolutionedButton, originalButton, pokemon, pokemon1 } from "../../../../utils";
+import {
+  evolutionedButton,
+  originalButton,
+  pokemon,
+  pokemon1,
+} from "../../../../utils";
 import DetailPokemonsView from "../PokemonsViewDetail";
-
 
 describe("Pokemon View Container", () => {
   it("should display the POKEMON wrapper and view container", () => {
@@ -13,7 +17,7 @@ describe("Pokemon View Container", () => {
     );
     let containerDetail = getByTestId("container-detail");
     expect(containerDetail).toBeDefined();
-    let wrapperDetail = getByTestId("pokemon-view-wrapper")
+    let wrapperDetail = getByTestId("pokemon-view-wrapper");
     expect(wrapperDetail).toBeDefined();
   });
 
@@ -24,7 +28,7 @@ describe("Pokemon View Container", () => {
       </BrowserRouter>
     );
     let buttonContainer = getByTestId("button-container");
-    let pokemonContainer = getByTestId("pokemon-container")
+    let pokemonContainer = getByTestId("pokemon-container");
     let pokemonImg = getByTestId("pokemon-img");
     let experienceContainer = getByTestId("experience-container");
     expect(buttonContainer).toBeDefined();
@@ -32,7 +36,6 @@ describe("Pokemon View Container", () => {
     expect(pokemonImg).toBeDefined();
     expect(experienceContainer).toBeDefined();
   });
-  
 
   it("should display the left arrow img", () => {
     const { getByTestId } = render(
@@ -54,10 +57,11 @@ describe("Pokemon View Container", () => {
     const { getByTestId } = render(
       <BrowserRouter>
         <DetailPokemonsView
-          currentPokemon={pokemon}
+          currentPokemon={pokemon1}
           pokemon={pokemon}
           evolutionedButton={evolutionedButton}
           originalButton={originalButton}
+          thirdEvolutionName={pokemon.name}
         />
       </BrowserRouter>
     );

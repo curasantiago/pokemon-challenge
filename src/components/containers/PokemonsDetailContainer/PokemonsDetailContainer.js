@@ -4,63 +4,89 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import rightArrow from "../../../assets/rightArrow.svg";
 import leftArrow from "../../../assets/leftArrow.svg";
-import './index.css'
+import "./index.css";
 import PokemonsViewDetail from "../../views/PokemonsViewDetail/PokemonsViewDetail";
 import Loading from "../../utils/Loading/Loading";
 import { BASE_URL } from "../../../utils";
 
 const PokemonsDetailContainer = () => {
-
   function useQuery() {
     return new URLSearchParams(useLocation().search).get("id");
   }
 
   const [idPokemon] = useState(useQuery());
   const [pokemon, setPokemon] = useState();
-  const [evolutionedPokemon, setEvolutionedPokemon] = useState();
-  const [currentPokemon, setCurrentPokemon] = useState(null);
+  const [currentPokemon, setCurrentPokemon] = useState();
   const [loading, setLoading] = useState(true);
   const [species, setSpecies] = useState();
   const [evolutions, setEvolutions] = useState();
+  const [firstPokemon, setFirstPokemon] = useState();
+  const [secondPokemon, setSecondPokemon] = useState();
+  const [thirdPokemon, setThirdPokemon] = useState();
 
-  const getPokemons = () => {
-    return axios
-    .get(`${BASE_URL}${idPokemon}`)
-    .then((data) => {
+  const getPokemons = async () => {
+    try {
+      const data = await axios
+        .get(`${BASE_URL}${idPokemon}`);
       setPokemon(data.data);
       setCurrentPokemon(data.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getSpecies = () => {
-    return axios
-      .get(`https://pokeapi.co/api/v2/pokemon-species/${idPokemon}/`)
-      .then((species) => setSpecies(species))
-      .catch((err) => console.log(err));
-  };
-
-  const getEvolutions = () => {
-    if (species) {
-      return axios
-        .get(species.data.evolution_chain.url)
-        .then((evolutions) => setEvolutions(evolutions))
-        .catch((err) => console.log(err));
+    } catch (err) {
+      return console.log(err);
     }
   };
 
-  const getEvolved = (evol, poke) => {
-    if (evol && poke) {
+  const getSpecies = async () => {
+    try {
+      const species = await axios
+        .get(`https://pokeapi.co/api/v2/pokemon-species/${idPokemon}/`);
+      return setSpecies(species);
+    } catch (err) {
+      return console.log(err);
+    }
+  };
+
+  const getEvolutions = async () => {
+    if (species) {
+      try {
+        const evolutions = await axios
+          .get(species.data.evolution_chain.url);
+        return setEvolutions(evolutions);
+      } catch (err) {
+        return console.log(err);
+      }
+    }
+  };
+
+  const getEvolutionChain = async () => {
+    if (evolutions) {
       setLoading(false);
-      if (evol.data.chain.evolves_to[0].species.name !== poke.name) {
-        axios
-          .get(`${BASE_URL}${evol.data.chain.evolves_to[0].species.name}`)
-          .then((nextEvolution) => {
-            if (nextEvolution.data.name !== poke.name) {
-              setEvolutionedPokemon(nextEvolution.data);
-            }
-          })
-          .catch((err) => console.log(err));
+      try {
+        const data = await axios.get(
+          `${BASE_URL}${evolutions.data.chain.species.name}`
+        );
+        setFirstPokemon(data);
+      } catch(err) {
+        console.log(err);
+      }
+      if (evolutions.data.chain.evolves_to[0].species.url) {
+        try {
+          const data = await axios.get(
+            `${BASE_URL}${evolutions.data.chain.evolves_to[0].species.name}`
+          );
+          setSecondPokemon(data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      if (evolutions.data.chain.evolves_to[0].evolves_to[0]) {
+        try {
+          const data = await axios.get(
+            `${BASE_URL}${evolutions.data.chain.evolves_to[0].evolves_to[0].species.name}`
+          );
+          setThirdPokemon(data);
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
   };
@@ -75,19 +101,26 @@ const PokemonsDetailContainer = () => {
   }, [species]);
 
   useEffect(() => {
-    if (evolutions && pokemon) {
-      getEvolved(evolutions, pokemon);
+    if (evolutions) {
+      getEvolutionChain();
     }
-  }, [pokemon, evolutions]);
+  }, [evolutions]);
 
-  const evolutionedButton = evolutionedPokemon ? (
+  const evolutionedButton = secondPokemon ? (
     <img
       src={rightArrow}
       data-testid="right-arrow"
       alt="arrow"
       className="arrow"
       onClick={() => {
-        setCurrentPokemon(evolutionedPokemon);
+        if (thirdPokemon && secondPokemon.data.name === currentPokemon.name) {
+          setCurrentPokemon(thirdPokemon.data);
+        } else if (
+          secondPokemon &&
+          firstPokemon.data.name === currentPokemon.name
+        ) {
+          setCurrentPokemon(secondPokemon.data);
+        }
       }}
     />
   ) : (
@@ -101,7 +134,12 @@ const PokemonsDetailContainer = () => {
       alt="left-arrow"
       className="leftArrow"
       onClick={() => {
-        setCurrentPokemon(pokemon);
+        if (thirdPokemon && currentPokemon.name === thirdPokemon.data.name) {
+          setCurrentPokemon(secondPokemon.data);
+        }
+        if (secondPokemon && currentPokemon.name === secondPokemon.data.name) {
+          setCurrentPokemon(firstPokemon.data);
+        }
       }}
     />
   );
@@ -112,6 +150,9 @@ const PokemonsDetailContainer = () => {
       pokemon={pokemon}
       evolutionedButton={evolutionedButton}
       originalButton={originalButton}
+      firstEvolutionName={firstPokemon && firstPokemon.data.name}
+      secondEvolutionName={secondPokemon && secondPokemon.data.name}
+      thirdEvolutionName={thirdPokemon && thirdPokemon.data.name}
     />
   ) : (
     <Loading />

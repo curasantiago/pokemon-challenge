@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import axiosMock from "axios";
 import DetailPokemonsContainer from "../PokemonsDetailContainer";
@@ -7,8 +7,6 @@ jest.mock("axios");
 
 describe("Should render Pokemons Container", () => {
   it("should be loading before display data", async () => {
-    axiosMock.get.mockResolvedValueOnce();
-    axiosMock.get.mockResolvedValueOnce();
 
     const { getByTestId } = render(
       <BrowserRouter>
@@ -17,18 +15,18 @@ describe("Should render Pokemons Container", () => {
     );
     let loading = await waitFor(() => getByTestId("loading"));
     expect(loading).toBeDefined();
+   
   });
 
-  it("the wrapper and goback button should be defined", async () => {
-    axiosMock.get.mockResolvedValueOnce();
-    axiosMock.get.mockResolvedValueOnce();
-
+  it("the api should be call twice", async () => {
+  
     render(
       <BrowserRouter>
         <DetailPokemonsContainer />
       </BrowserRouter>
     );
-
+     
     expect(axiosMock.get).toHaveBeenCalledTimes(2);
+    screen.debug();
   });
 });
