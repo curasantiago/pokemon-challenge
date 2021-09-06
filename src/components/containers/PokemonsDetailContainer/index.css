@@ -1,0 +1,103 @@
+
+.oficialWrapper {
+    text-align: center;
+}
+.arrow {
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: white;
+    position: absolute;
+    right: 5px;
+    box-shadow: 0.2px 0.2px 0.2px 0.5px gray;
+}
+
+.leftArrow {
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: white;
+    position: absolute;
+    left: 5px;
+    box-shadow: 0.2px 0.2px 0.2px 0.5px gray;
+}
+
+.goBack {
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    left: 10px;
+    margin: 20px;
+    box-shadow: 0.2px 0.2px 0.2px 0.5px black;
+}
+
+.arrow:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.leftArrow:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.containerDetail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
+.experienceContainer {
+    padding: 30px;
+}
+
+.wrapperDetail {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin: 6rem 0px;
+}
+
+.imageContainerDetail img {
+    width: 13rem;
+    height: 10rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+p {
+    background-color: white;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+ul {
+    margin: 10px;
+    padding: 0px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+li {
+   padding: 5px;
+   list-style: none;
+}
+
+.ulAbility {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
